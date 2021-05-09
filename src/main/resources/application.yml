@@ -1,0 +1,14 @@
+my:
+  custom:
+    property: 'Hello from application properties default'
+    enabled: true
+---
+spring:
+  config:
+    activate:
+      on-profile: jaz
+my:
+  custom:
+    property: 'Hello from application properties jaz'
+    random: '123'
+    enabled: true
