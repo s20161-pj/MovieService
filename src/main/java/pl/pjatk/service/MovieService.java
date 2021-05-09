@@ -17,6 +17,10 @@ public class MovieService {
     }
 
     public List<MovieModel> addMovie (MovieModel addMovie) {
+        if (addMovie.getCategory() == "" || addMovie.getName() == "") {
+            return null;
+        }
+
         this.movies.add(addMovie);
 
         return this.movies;

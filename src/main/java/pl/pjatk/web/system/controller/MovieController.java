@@ -1,11 +1,13 @@
 package pl.pjatk.web.system.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.pjatk.service.MovieService;
 import pl.pjatk.web.system.model.MovieModel;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/movies")
@@ -24,6 +26,15 @@ public class MovieController {
     @GetMapping("/{id}")
     public ResponseEntity<MovieModel> getMovie(@PathVariable Long id) {
         return ResponseEntity.ok(this.movieService.getMovie(id));
+    }
+    @PostMapping()
+    public ResponseEntity addMovie(@RequestBody MovieModel movieToAdd){
+        List<MovieModel> movie = this.movieService.addMovie(movieToAdd);
+
+        if(movie == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok().build();
     }
 }
 
