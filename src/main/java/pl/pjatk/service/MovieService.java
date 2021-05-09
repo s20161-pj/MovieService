@@ -51,6 +51,10 @@ public class MovieService {
     public List<MovieModel> getAllMovies() {
         return this.movies;
     }
+
+    public boolean removeMovie(Long id){
+        return this.movies.removeIf(e -> e.getId().equals(id));
+    }
 }
 
 
