@@ -3,9 +3,9 @@ package pl.pjatk.web.system.model;
 public class MovieModel {
     private Long id;
     private String name;
-    private String category;
+    private EnCategory category;
 
-    public MovieModel(Long id, String name, String category) {
+    public MovieModel(Long id, String name, EnCategory category) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -19,7 +19,7 @@ public class MovieModel {
         return name;
     }
 
-    public String getCategory() {
+    public EnCategory getCategory() {
         return category;
     }
 
@@ -31,7 +31,7 @@ public class MovieModel {
         this.name = name;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(EnCategory category) {
         this.category = category;
     }
 }

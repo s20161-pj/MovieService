@@ -27,9 +27,20 @@ public class MovieController {
     public ResponseEntity<MovieModel> getMovie(@PathVariable Long id) {
         return ResponseEntity.ok(this.movieService.getMovie(id));
     }
+
     @PostMapping()
     public ResponseEntity addMovie(@RequestBody MovieModel movieToAdd){
-        List<MovieModel> movie = this.movieService.addMovie(movieToAdd);
+        List<MovieModel> movies = this.movieService.addMovie(movieToAdd);
+
+        if(movies == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MovieModel> updateMovie(@RequestBody MovieModel movieToUpdate){
+        MovieModel movie = this.movieService.update(movieToUpdate);
 
         if(movie == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

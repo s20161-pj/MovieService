@@ -1,6 +1,7 @@
 package pl.pjatk.service;
 
 import org.springframework.stereotype.Service;
+import pl.pjatk.web.system.model.EnCategory;
 import pl.pjatk.web.system.model.MovieModel;
 
 import java.util.List;
@@ -11,13 +12,13 @@ public class MovieService {
 
     public MovieService() {
         this.movies = List.of(
-                new MovieModel(1L,"Movie1", "horror"),
-                new MovieModel(2L,"Movie2", "comedy")
+                new MovieModel(1L,"Movie1", EnCategory.Comedy),
+                new MovieModel(2L,"Movie2", EnCategory.Horror)
         );
     }
 
     public List<MovieModel> addMovie (MovieModel addMovie) {
-        if (addMovie.getCategory() == "" || addMovie.getName() == "") {
+        if (addMovie.getName() == "") {
             return null;
         }
 
@@ -25,11 +26,11 @@ public class MovieService {
 
         return this.movies;
     }
-    public MovieModel update(MovieModel movie) throws Exception {
+    public MovieModel update(MovieModel movie) {
         Long movieId = movie.getId();
         MovieModel movieToUpdate = this.getMovie(movieId);
         if(movieToUpdate == null) {
-            throw new Exception("Nie ma takiego filmu");
+            return null;
         }
 
         movieToUpdate.setName(movie.getName());
