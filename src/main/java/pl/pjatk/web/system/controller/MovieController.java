@@ -30,9 +30,9 @@ public class MovieController {
 
     @PostMapping()
     public ResponseEntity addMovie(@RequestBody MovieModel movieToAdd){
-        List<MovieModel> movies = this.movieService.addMovie(movieToAdd);
+        MovieModel addedModel = this.movieService.addMovie(movieToAdd);
 
-        if(movies == null) {
+        if(addedModel == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok().build();
@@ -40,9 +40,9 @@ public class MovieController {
 
     @PutMapping("/{id}")
     public ResponseEntity<MovieModel> updateMovie(@RequestBody MovieModel movieToUpdate){
-        MovieModel movie = this.movieService.update(movieToUpdate);
+       MovieModel movieUpdated = this.movieService.update(movieToUpdate);
 
-        if(movie == null) {
+        if(movieUpdated == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok().build();

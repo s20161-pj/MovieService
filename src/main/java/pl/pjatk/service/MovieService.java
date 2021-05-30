@@ -1,59 +1,62 @@
 package pl.pjatk.service;
 
 import org.springframework.stereotype.Service;
-import pl.pjatk.web.system.model.EnCategory;
+import pl.pjatk.repository.MovieRepository;
 import pl.pjatk.web.system.model.MovieModel;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieService {
-    private List<MovieModel> movies;
+    private final MovieRepository movieRepository;
 
-    public MovieService() {
-        this.movies = List.of(
-                new MovieModel(1L,"Movie1", EnCategory.Comedy),
-                new MovieModel(2L,"Movie2", EnCategory.Horror)
-        );
+    public MovieService(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
     }
 
-    public List<MovieModel> addMovie (MovieModel addMovie) {
+    public MovieModel addMovie (MovieModel addMovie) {
         if (addMovie.getName() == "") {
             return null;
         }
 
-        this.movies.add(addMovie);
-
-        return this.movies;
+        return this.movieRepository.save(addMovie);
     }
+
     public MovieModel update(MovieModel movie) {
         Long movieId = movie.getId();
-        MovieModel movieToUpdate = this.getMovie(movieId);
-        if(movieToUpdate == null) {
+
+        Optional<MovieModel> movieToUpdateOpt = this.movieRepository.findById(movieId);
+        if(!movieToUpdateOpt.isPresent()) {
             return null;
         }
-
+        MovieModel movieToUpdate = movieToUpdateOpt.get();
         movieToUpdate.setName(movie.getName());
         movieToUpdate.setCategory(movie.getCategory());
 
-        return movieToUpdate;
+        return this.movieRepository.save(movieToUpdate);
     }
 
     public MovieModel getMovie(Long movieId) {
-        for (MovieModel movie : this.movies) {
-            if (movie.getId().equals(movieId)) {
-                return movie;
-            }
+        Optional<MovieModel> movieOpt = this.movieRepository.findById(movieId);
+        if(!movieOpt.isPresent()) {
+            return null;
         }
-        return null;
+        return movieOpt.get();
     }
 
     public List<MovieModel> getAllMovies() {
-        return this.movies;
+        return this.movieRepository.findAll();
     }
 
     public boolean removeMovie(Long id){
-        return this.movies.removeIf(e -> e.getId().equals(id));
+        MovieModel movieModel = this.getMovie(id);
+        if(movieModel == null){
+            return false;
+        }
+        this.movieRepository.delete(movieModel);
+
+        return true;
     }
 }
 
