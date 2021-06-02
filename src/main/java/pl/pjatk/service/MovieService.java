@@ -23,6 +23,18 @@ public class MovieService {
         return this.movieRepository.save(addMovie);
     }
 
+    public MovieModel changeAvailable(Long id) {
+        Optional<MovieModel> movieToUpdateOpt = this.movieRepository.findById(id);
+        if(!movieToUpdateOpt.isPresent()) {
+            return null;
+        }
+        MovieModel movieToUpdate = movieToUpdateOpt.get();
+        boolean isAvailable = movieToUpdate.isAvailable();
+        movieToUpdate.setAvailable(!isAvailable);
+        this.movieRepository.update(movieToUpdate);
+        return movieToUpdate;
+    }
+
     public MovieModel update(MovieModel movie) {
         Long movieId = movie.getId();
 
@@ -33,8 +45,8 @@ public class MovieService {
         MovieModel movieToUpdate = movieToUpdateOpt.get();
         movieToUpdate.setName(movie.getName());
         movieToUpdate.setCategory(movie.getCategory());
-
-        return this.movieRepository.save(movieToUpdate);
+        this.movieRepository.update(movieToUpdate);
+        return movieToUpdate;
     }
 
     public MovieModel getMovie(Long movieId) {

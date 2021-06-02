@@ -57,6 +57,16 @@ public class MovieController {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+    @PutMapping("/available/{id}")
+    public ResponseEntity<MovieModel> changeAvailable(@PathVariable Long id){
+        MovieModel movieUpdated = this.movieService.changeAvailable(id);
+
+        if(movieUpdated == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok().build();
+    }
 }
 
 

@@ -12,10 +12,14 @@ public class MovieModel {
     @Enumerated(EnumType.STRING)
     private EnCategory category;
 
-    public MovieModel(Long id, String name, EnCategory category) {
+
+    private boolean isAvailable;
+
+    public MovieModel(Long id, String name, EnCategory category, boolean isAvailable) {
         this.id = id;
         this.name = name;
         this.category = category;
+        this.isAvailable = isAvailable;
     }
 
     public MovieModel() {
@@ -34,6 +38,10 @@ public class MovieModel {
         return category;
     }
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -45,4 +53,9 @@ public class MovieModel {
     public void setCategory(EnCategory category) {
         this.category = category;
     }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
 }
